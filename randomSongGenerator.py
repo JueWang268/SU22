@@ -59,11 +59,14 @@ def happy_song(numOfNotes: int = 100) -> stream.Part:
 
     for _ in range(numOfNotes):
         if isinstance(song[-1], note.Rest) or r.random() < 0.8:
-            noat = random_note(55, 70, 0.25, 1, song.keySignature)
-            if r.random() < 0.5:
-                noat.articulations.append(articulations.Staccato())
-            if r.random() < 0.5:
-                noat.articulations.append(articulations.Accent())
+            noat = random_note(55, 70, 0.5, 1, song.keySignature)
+            if r.random() < 0.4:
+                noat.articulations.append(
+                    r.choice([articulations.Staccato(), 
+                              articulations.Spiccato(),
+                              articulations.Staccatissimo(),
+                              articulations.Spiccato()])
+                )
 
             song.append(noat)
         else:
@@ -84,7 +87,7 @@ def sad_song(numOfNotes:int = 100) -> stream.Part:
 
 
     for _ in range(numOfNotes):
-        if isinstance(song[-1], note.Rest) or r.random() < 0.8:
+        if isinstance(song[-1], note.Rest) or r.random() < 0.90:
             noat = random_note(55, 65, 0.75, 2, song.keySignature)
             if r.random() < 0.2:
                 noat.articulations = [articulations.Tenuto()]
@@ -103,5 +106,6 @@ if __name__ == "__main__":
     # b = corpus.parse('bach/bwv66.6')
 
     score.append(sad_song(numOfNotes=20))
+
     
     score.show()

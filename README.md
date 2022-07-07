@@ -1,7 +1,7 @@
-## SUMMER RESEARCH 2022 WITH HANNEN WOLFE
+## SUMMER RESEARCH 2022
 
 ### *BARON WANG*
 
 ### *YIHENG SU*
 
-***yeahyeahyeah yeah yeah***
+

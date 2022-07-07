@@ -16,14 +16,11 @@ def random_note(MIDI_lowerbound, MIDI_upperbound, quarterlength_l, quarterlength
 
     midi = random.randint(MIDI_lowerbound, MIDI_upperbound)
     pitches = [i.midi%12 for i in key.pitches]
-    # print(f'{pitches=}')
 
     ''' make sure the note is in the right key'''
 
-    # print(f"before adjustment, {midi=}, {midi%12=}")
     while midi%12 not in pitches:
         midi += 1
-    # print(f"after adujustment {midi=} , {midi%12=}")
 
 
     '''python random funcs can't take floats so we got to scale up the user input'''
@@ -65,10 +62,12 @@ def happy_song(numOfNotes: int = 100) -> stream.Part:
     song.append(tempo.MetronomeMark(text=None, number=120, referent=note.Note(type='half')))
     song.keySignature = kee
 
-
-    for _ in range(numOfNotes):
+    for i in range(numOfNotes):
         if isinstance(song[-1], note.Rest) or random.random() < 0.8:
-            noat = random_note(55, 75, 0.5, 1, song.keySignature)
+
+            offset = int(i/numOfNotes*15)
+
+            noat = random_note(70+offset, 75+offset, 0.5, 1, song.keySignature)
             if random.random() < 0.4:
                 noat.articulations.append(
                     random.choice(
@@ -81,7 +80,10 @@ def happy_song(numOfNotes: int = 100) -> stream.Part:
 
             song.append(noat)
         else:
-            song.append(random_rest(0.25, 0.75))
+            song.append(random_rest(0, 0.5))
+
+    
+
 
     return song
 
@@ -93,12 +95,14 @@ def content_song(numOfNotes: int = 100) -> stream.Part:
 
     song.append(meter.TimeSignature('4/4'))
     song.append(instrument.ElectricPiano())
-    song.append(tempo.MetronomeMark(text=None, number=65, referent=note.Note(type='half')))
+    song.append(tempo.MetronomeMark(text=None, number=70, referent=note.Note(type='half')))
     song.keySignature = kee
 
-    for _ in range(numOfNotes):
+    for i in range(numOfNotes):
         if isinstance(song[-1], note.Rest) or random.random() < 0.9:
-            noat = random_note(65, 75, 0.5, 1, song.keySignature)
+
+            offset = int(i/numOfNotes*10)
+            noat = random_note(70+offset, 75+offset, 0.5, 1, song.keySignature)
             if random.random() < 0.4:
                 noat.articulations.append(random.choice([articulations.Tenuto(),
                                                         articulations.Unstress(),
@@ -122,9 +126,12 @@ def sad_song(numOfNotes:int = 100) -> stream.Part:
     song.keySignature = kee
 
 
-    for _ in range(numOfNotes):
-        if isinstance(song[-1], note.Rest) or random.random() < 0.90:
-            noat = random_note(55, 65, 0.75, 2, song.keySignature)
+    for i in range(numOfNotes):
+        if isinstance(song[-1], note.Rest) or random.random() < 0.8:
+
+            offset = int(i/numOfNotes*10)
+
+            noat = random_note(55-offset, 60-offset, 1, 2, song.keySignature)
             if random.random() < 0.5:
                 noat.articulations.append(
                     random.choice([articulations.Tenuto()])
@@ -147,10 +154,13 @@ def angry_song(numOfNotes:int = 100) -> stream.Part:
     song.append(tempo.MetronomeMark(text=None, number=100, referent=note.Note(type='half')))
     song.keySignature = kee
 
-    for _ in range(numOfNotes):
+    for i in range(numOfNotes):
         if isinstance(song[-1], note.Rest) or random.random() < 0.9:
-            noat = random_note(50, 60, 0.25, 1, song.keySignature)
-            if random.random() < 0.7 and noat.pitch.midi >= 55:
+
+            offset = int(i/numOfNotes*5)
+
+            noat = random_note(50-offset, 55-offset, 0.25, 0.75, song.keySignature)
+            if random.random() < 0.7:
                 noat.articulations.append(
                     random.choice(
                                 [articulations.Staccato(), 
@@ -165,18 +175,13 @@ def angry_song(numOfNotes:int = 100) -> stream.Part:
         else:
             song.append(random_rest(0.25, 0.5))
 
-
-    
     return song
 
 
 if __name__ == "__main__":
     score = stream.Score()
 
-    # bigSong = stream.Stream()
-    # b = corpus.parse('bach/bwv66.6')
-
-    score.append(angry_song(numOfNotes=90))
+    score.append(angry_song(numOfNotes=20))
 
 
     percussionPart = stream.Part()
@@ -192,4 +197,5 @@ if __name__ == "__main__":
 
 
     # score.append(percussionPart)
+    score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/happy_song.mid")
     score.show()

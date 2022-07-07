@@ -1,6 +1,6 @@
 ## SUMMER RESEARCH 2022
 
-### *BARON WANG*
+### *BARON WANG (ChenxuMurong)*
 
 ### *YIHENG SU*
 

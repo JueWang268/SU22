@@ -91,7 +91,7 @@ def content_song(numOfNotes: int = 100) -> stream.Part:
     '''happy and calm, major, slow but with high pitch'''
     song = stream.Part()
 
-    kee = key.Key('F', 'major')
+    kee = key.Key('C', 'major')
 
     song.append(meter.TimeSignature('4/4'))
     song.append(instrument.ElectricPiano())
@@ -127,14 +127,16 @@ def sad_song(numOfNotes:int = 100) -> stream.Part:
 
 
     for i in range(numOfNotes):
-        if isinstance(song[-1], note.Rest) or random.random() < 0.8:
+        if isinstance(song[-1], note.Rest) or random.random() < 0.9:
 
             offset = int(i/numOfNotes*10)
 
             noat = random_note(55-offset, 60-offset, 1, 2, song.keySignature)
             if random.random() < 0.5:
                 noat.articulations.append(
-                    random.choice([articulations.Tenuto()])
+                    random.choice([articulations.Tenuto(),
+                                   articulations.Unstress(),
+                                   articulations.DetachedLegato()])
                     )
             song.append(noat)
                 
@@ -151,11 +153,11 @@ def angry_song(numOfNotes:int = 100) -> stream.Part:
 
     song.append(meter.TimeSignature('4/4'))
     song.append(instrument.ElectricPiano())
-    song.append(tempo.MetronomeMark(text=None, number=100, referent=note.Note(type='half')))
+    song.append(tempo.MetronomeMark(text=None, number=150, referent=note.Note(type='half')))
     song.keySignature = kee
 
     for i in range(numOfNotes):
-        if isinstance(song[-1], note.Rest) or random.random() < 0.9:
+        if isinstance(song[-1], note.Rest) or random.random() < 0.8:
 
             offset = int(i/numOfNotes*5)
 
@@ -177,11 +179,30 @@ def angry_song(numOfNotes:int = 100) -> stream.Part:
 
     return song
 
+def neutral_sound(numOfNotes: int) -> stream.Part:
+    song = stream.Part()
+
+    kee = key.Key('C', 'major')
+
+    song.append(meter.TimeSignature('4/4'))
+    song.append(instrument.ElectricPiano())
+    song.append(tempo.MetronomeMark(text=None, number=100, referent=note.Note(type='half')))
+    song.keySignature = kee
+
+    for i in range(numOfNotes):
+
+        if i%2 == 1:
+            song.append(note.Note('C4', quarterLength = 2))
+        else:
+            song.append(note.Note('G4', quarterLength = 2))
+
+    return song
+
 
 if __name__ == "__main__":
     score = stream.Score()
 
-    score.append(angry_song(numOfNotes=20))
+    score.append(neutral_sound(numOfNotes=30))
 
 
     percussionPart = stream.Part()
@@ -197,5 +218,6 @@ if __name__ == "__main__":
 
 
     # score.append(percussionPart)
-    score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/happy_song.mid")
+    a= score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/happy_song.mid")
+    
     score.show()

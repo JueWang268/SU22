@@ -1,6 +1,7 @@
 from music21 import *
 import random
 import typing
+from midi2audio import FluidSynth
 
 # TODO range of sounds, starting pitches, ascending/descending melody, intensity arrow things
 # TODO Other quadrants of emotoin: 
@@ -59,7 +60,7 @@ def happy_song(numOfNotes: int = 100) -> stream.Part:
 
     song.append(meter.TimeSignature('4/4'))
     song.append(instrument.ElectricPiano())
-    song.append(tempo.MetronomeMark(text=None, number=120, referent=note.Note(type='half')))
+    song.append(tempo.MetronomeMark(text=None, number=150, referent=note.Note(type='half')))
     song.keySignature = kee
 
     for i in range(numOfNotes):
@@ -115,7 +116,7 @@ def content_song(numOfNotes: int = 100) -> stream.Part:
 
     return song
 
-def sad_song(numOfNotes:int = 100) -> stream.Part:
+def sad_song(numOfNotes:int = 10) -> stream.Part:
     song = stream.Part()
 
     kee = key.Key('C', 'minor')
@@ -146,7 +147,7 @@ def sad_song(numOfNotes:int = 100) -> stream.Part:
     return song
 
 
-def angry_song(numOfNotes:int = 100) -> stream.Part:
+def angry_song(numOfNotes:int = 30) -> stream.Part:
     song = stream.Part()
 
     kee = key.Key('C', 'minor')
@@ -184,40 +185,32 @@ def neutral_sound(numOfNotes: int) -> stream.Part:
 
     kee = key.Key('C', 'major')
 
-    song.append(meter.TimeSignature('4/4'))
+    song.append(meter.TimeSignature('2/4'))
     song.append(instrument.ElectricPiano())
-    song.append(tempo.MetronomeMark(text=None, number=100, referent=note.Note(type='half')))
+    song.append(tempo.MetronomeMark(text=None, number=150, referent=note.Note(type='half')))
     song.keySignature = kee
 
     for i in range(numOfNotes):
 
         if i%2 == 1:
-            song.append(note.Note('C4', quarterLength = 2))
+            song.append(note.Note('C4', quarterLength = 1))
         else:
-            song.append(note.Note('G4', quarterLength = 2))
+            song.append(note.Note('G4', quarterLength = 1))
 
     return song
 
 
 if __name__ == "__main__":
-    score = stream.Score()
 
-    score.append(neutral_sound(numOfNotes=30))
+    for _ in range(4):
+        score = stream.Score()
 
+        score.append(happy_song(numOfNotes=20))
+        score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/happy_song.mid")
 
-    percussionPart = stream.Part()
-
-    percussionPart.append(instrument.Percussion()) 
-    # better when changed to Percussion()
-
-    for i in range(2*int(score.duration.quarterLength)):
-        if i % 8 == 0:
-            percussionPart.append(note.Note(45, quarterLength = 0.5))
-        else:
-            percussionPart.append(note.Note(40, quarterLength = 0.5))
-
+        score.show()
 
     # score.append(percussionPart)
-    a= score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/happy_song.mid")
     
-    score.show()
+    # converter.Converter()
+    # FluidSynth().midi_to_audio('happy_song.mid', 'happy_song.wav')

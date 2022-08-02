@@ -19,38 +19,38 @@ using namespace std;
 namespace Robot
 {
 
-
-void VisionMode::Play(int color, vector<char*> names)
-{
-    static int old_color = 0, color_count = 0;
-
-    if(old_color != color || color == 0)
+    void VisionMode::Play(int color, vector<char*> names)
     {
-        old_color = color;
+        static int old_color = 0, color_count = 0;
+
+        if(old_color != color || color == 0)
+        {
+            old_color = color;
+            color_count = 0;
+        }
+        else
+            color_count++;
+
+        if(color_count < 15) return;
+
+        // determine which color plays which song
+        switch(color)
+        {
+        case (RED):
+            LinuxActionScript::PlayMP3Wait(names[0]);
+            break;
+        case (YELLOW):
+            LinuxActionScript::PlayMP3Wait(names[1]);
+            break;
+        case (BLUE):
+            LinuxActionScript::PlayMP3Wait(names[2]);
+            break;
+        case (GREEN):
+            LinuxActionScript::PlayMP3Wait(names[3]);
+            break;
+        }
+
         color_count = 0;
     }
-    else
-        color_count++;
-
-    if(color_count < 15) return;
-
-    switch(color)
-    {
-    case (RED):
-        LinuxActionScript::PlayMP3Wait(names[0]);
-        break;
-    case (YELLOW):
-        LinuxActionScript::PlayMP3Wait(names[1]);
-        break;
-    case (BLUE):
-        LinuxActionScript::PlayMP3Wait(names[2]);
-        break;
-    case (GREEN):
-        LinuxActionScript::PlayMP3Wait(names[3]);
-        break;
-    }
-
-    color_count = 0;
-}
 
 }

@@ -19,11 +19,12 @@ namespace Robot
 class VisionMode
 {
 public:
+    // assign each color an integer
     enum {
         RED     = 1,
         YELLOW  = 2,
         BLUE    = 4,
-	GREEN   = 8
+	    GREEN   = 8
     };
 
     static void Play(int color, vector<char*> names);

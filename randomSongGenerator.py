@@ -292,6 +292,6 @@ if __name__ == "__main__":
         score.append(happy_song(numOfNotes=20))
         
 
-    score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/song.mid")
+    score.write('midi',fp = "song.mid")
 
     score.show()

@@ -26,11 +26,11 @@ The VisionMode can convert red, yellow, blue, and green into different integers.
 Turn on the robot.
 Open the terminal and type:
 
-*sudo su* (Password is 111111)
+*sudo su* **(Password is 111111)**
 
 *cd /darwin/Linux/project/tracking2.0*
 
-*killall demo* (type this if you cannot run the following command)
+*killall demo* **(type this if you cannot run the following command)**
 
 *./tracking*
 
@@ -38,13 +38,13 @@ Open the terminal and type:
 Turn on the robot.
 Open the terminal and type:
 
-*sudo su* (Password is 111111)
+*sudo su* **(Password is 111111)**
 
 *cd /darwin/Linux/project/tracking2.0*
 
-*gedit filname*
+*gedit filename*
 
-*make* (**after modifying the codes, you need to recompile before running**)
+*make* **(after modifying the codes, you need to recompile before running)**
 
 #### Acknowledgement
 I would like to thank my summer research Professor Hannen Wolfe, who organized this reasearch and supported me to design the programs for the robot.

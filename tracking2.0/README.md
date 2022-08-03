@@ -1,6 +1,7 @@
 ## Tracking2.0
 
 ### *YIHENG SU*
+### *Summer 2022*
 
 #### Description of Tracking2.0
 The tracking2.0 project is designed for human and robot interactions with non-linguistic utterance sounds under the supervision of Professor Hannen Wolfe. 
@@ -24,20 +25,30 @@ The VisionMode can convert red, yellow, blue, and green into different integers.
 ##### Run tracking2.0 on the robot
 Turn on the robot.
 Open the terminal and type:
+
 *sudo su* (Password is 111111)
+
 *cd /darwin/Linux/project/tracking2.0*
+
 *killall demo* (type this if you cannot run the following command)
+
 *./tracking*
 
 ##### Edit tracking2.0 on the robot
 Turn on the robot.
 Open the terminal and type:
+
 *sudo su* (Password is 111111)
+
 *cd /darwin/Linux/project/tracking2.0*
-*gedit <filename>*
+
+*gedit filname*
+
 *make* (**after modifying the codes, you need to recompile before running**)
 
 #### Acknowledgement
-Great thanks to Professor Hannen Wolfe. 
+I would like to thank my summer research Professor Hannen Wolfe, who organized this reasearch and supported me to design the programs for the robot.
+
+I would also like to thank my research partner Baron Wang. We worked together on this research topics this summer.
 
 

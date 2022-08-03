@@ -3,10 +3,12 @@
 ### *BARON WANG (Git username: ChenxuMurong)*
 
 
-## Required Libraries
+## Required Softwares
 
 The sound generator requires toolkit [music21](https://web.mit.edu/music21) to run. Run
 ```sudo pip3 install music21``` on Mac or ```pip install music21``` on Windows to [install](https://web.mit.edu/music21/doc/installing/).
+
+*TODO, add instructions for musescore*
 
 ## Usage
 

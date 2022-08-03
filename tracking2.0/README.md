@@ -44,7 +44,7 @@ Open the terminal and type:
 
 *gedit filename*
 
-*make* **(after modifying the codes, you need to recompile before running)**
+*make* ***(after modifying the codes, you need to recompile before running)***
 
 #### Acknowledgement
 I would like to thank my summer research Professor Hannen Wolfe, who organized this reasearch and supported me to design the programs for the robot.

@@ -1,8 +1,18 @@
-## SUMMER RESEARCH 2022
+# SUMMER RESEARCH 2022 - Sound Generator
 
 ### *BARON WANG (Git username: ChenxuMurong)*
 
+## Usage
 
+randomSongGenerator.py is script that is used to generate random sound clips capable of expressing a certain emotion (happy, sad, content, or angry).
+
+Use command line argument to specify which emotion to be associated with the sound. It defaults to happy songs.
+
+```python3 randomSongGenerator.py [happy|sad|content|angry|h|s|c|a]```
+
+
+
+## Reference Table
 
 |                               |Content Happy|Excited Happy|Sad        |Angry    |Neutral (2 notes)|Reason / Theory|
 |:-----------------------------:|:-----------:|:-----------:|:---------:|:-------:|:---------------:|:-------------:|

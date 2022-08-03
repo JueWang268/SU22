@@ -2,6 +2,12 @@
 
 ### *BARON WANG (Git username: ChenxuMurong)*
 
+
+## Required Libraries
+
+The sound generator requires toolkit [music21](https://web.mit.edu/music21) to run. Run
+```sudo pip3 install music21``` on Mac or ```pip install music21``` on Windows to [install](https://web.mit.edu/music21/doc/installing/).
+
 ## Usage
 
 randomSongGenerator.py is script that is used to generate random sound clips capable of expressing a certain emotion (happy, sad, content, or angry).

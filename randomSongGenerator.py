@@ -2,6 +2,7 @@ from music21 import *
 import random
 import typing
 from midi2audio import FluidSynth
+import sys
 
 # TODO range of sounds, starting pitches, ascending/descending melody, intensity arrow things
 # TODO Other quadrants of emotoin: 
@@ -202,15 +203,28 @@ def neutral_sound(numOfNotes: int) -> stream.Part:
 
 if __name__ == "__main__":
 
+
     for _ in range(4):
         score = stream.Score()
 
-        score.append(happy_song(numOfNotes=20))
-        score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/happy_song.mid")
+        if len(sys.argv) == 2:
+            emotion = sys.argv[1]
+            if emotion == "happy":
+                score.append(happy_song(numOfNotes=20))
+            elif emotion == "sad":
+                score.append(sad_song(numOfNotes=10))
+            elif emotion == "content":
+                score.append(content_song(numOfNotes=20))
+            elif emotion == "angry":
+                score.append(angry_song(numOfNotes=30))
+            else:
+                print("USAGE: py randomSongGenerator.py [happy/sad/content/angry]")
+                exit()
+        # happy song by default
+        else:
+            score.append(happy_song(numOfNotes=20))
+            
+
+        score.write('midi',fp = "/Users/baronwang/Desktop/Colby/SU22/song.mid")
 
         score.show()
-
-    # score.append(percussionPart)
-    
-    # converter.Converter()
-    # FluidSynth().midi_to_audio('happy_song.mid', 'happy_song.wav')

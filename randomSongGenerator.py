@@ -1,21 +1,38 @@
 from music21 import *
 import random
 import typing
-from midi2audio import FluidSynth
 import sys
 
-# TODO range of sounds, starting pitches, ascending/descending melody, intensity arrow things
-# TODO Other quadrants of emotoin: 
 
 # positive low energy: 
 # happy calm (content [slow sound in major, higher pitch]), 
 # negative high energy: 
 # sad excited (angry [fast sound in minor, lower pitch])
 
-def random_note(MIDI_lowerbound, MIDI_upperbound, quarterlength_l, quarterlength_u, key):
-    '''returns a note of random pitch and duration.
-        duration step hard coded as 0.25'''
+# all songs use electronic piano as instrument
 
+def random_note(MIDI_lowerbound: int, 
+                MIDI_upperbound: int, 
+                quarterlength_l: int, 
+                quarterlength_u: int, 
+                key: key.Key) -> note.Note:
+    """
+    
+    returns a note of random pitch and duration.
+    duration step hard coded as 0.25
+    
+
+    Args:
+        MIDI_lowerbound (int): lower bound for note in MIDI
+        MIDI_upperbound (int): upper bound for note in MIDI
+        quarterlength_l (int): lower bound for quarterlength
+        quarterlength_u (int): upper bound for quarterlength
+        key (key.Key): key where this note is expected to be on
+
+    Returns:
+        note.Note
+    """
+                
     midi = random.randint(MIDI_lowerbound, MIDI_upperbound)
     pitches = [i.midi%12 for i in key.pitches]
 
@@ -38,8 +55,17 @@ def random_note(MIDI_lowerbound, MIDI_upperbound, quarterlength_l, quarterlength
     return res
 
 
-def random_rest(quarterlength_l, quarterlength_u):
-    '''returns a rest of random duration'''
+def random_rest(quarterlength_l: int, quarterlength_u: int) -> note.Rest:
+    """returns a rest of random duration
+
+    Args:
+        quarterlength_l (int): lower bound for quarterlength
+        quarterlength_u (int): upper bound for quarterlength
+
+    Returns:
+        note.Rest
+    """
+
     '''python random funcs can't take floats so we got to scale up the user input'''
     ql_lo_amplified = quarterlength_l * 1024
     ql_up_amplified = quarterlength_u * 1024
@@ -54,7 +80,16 @@ def random_rest(quarterlength_l, quarterlength_u):
     return res
 
 
-def happy_song(numOfNotes: int = 100) -> stream.Part:
+def happy_song(numOfNotes: int = 20) -> stream.Part:
+    """returns a happy (joyful excited) song of type stream.Part
+
+    Args:
+        numOfNotes (int, optional). Defaults to 20.
+
+    Returns:
+        stream.Part
+    """
+
     song = stream.Part()
 
     kee = key.Key('C', 'major')
@@ -64,11 +99,13 @@ def happy_song(numOfNotes: int = 100) -> stream.Part:
     song.append(tempo.MetronomeMark(text=None, number=150, referent=note.Note(type='half')))
     song.keySignature = kee
 
+    # adding notes or rests
     for i in range(numOfNotes):
+        # if previous music21 object is of instance note.Rest, then append note.Note
         if isinstance(song[-1], note.Rest) or random.random() < 0.8:
 
             offset = int(i/numOfNotes*15)
-
+            # each note will be generated within a higher pitch interval than the previous one
             noat = random_note(70+offset, 75+offset, 0.5, 1, song.keySignature)
             if random.random() < 0.4:
                 noat.articulations.append(
@@ -77,20 +114,26 @@ def happy_song(numOfNotes: int = 100) -> stream.Part:
                                  articulations.Spiccato(),
                                  articulations.Staccatissimo(),
                                  articulations.Spiccato()]
-                                )
+                                ) # "strong" articulations 
                 )
 
             song.append(noat)
         else:
             song.append(random_rest(0, 0.5))
 
-    
-
-
     return song
 
-def content_song(numOfNotes: int = 100) -> stream.Part:
-    '''happy and calm, major, slow but with high pitch'''
+
+def content_song(numOfNotes: int = 20) -> stream.Part:
+    """returns a content (joyful calm) song of type stream.Part
+    
+    Args:
+        numOfNotes (int, optional). Defaults to 20.
+
+    Returns:
+        stream.Part
+    """
+
     song = stream.Part()
 
     kee = key.Key('C', 'major')
@@ -101,15 +144,17 @@ def content_song(numOfNotes: int = 100) -> stream.Part:
     song.keySignature = kee
 
     for i in range(numOfNotes):
+        # if previous music21 object is of instance note.Rest, then append note.Note
         if isinstance(song[-1], note.Rest) or random.random() < 0.9:
 
             offset = int(i/numOfNotes*10)
+            # each note will be generated within a higher pitch interval than the previous one
             noat = random_note(70+offset, 75+offset, 0.5, 1, song.keySignature)
             if random.random() < 0.4:
                 noat.articulations.append(random.choice([articulations.Tenuto(),
                                                         articulations.Unstress(),
                                                         articulations.DetachedLegato()]
-                                                        )
+                                                        ) # "weak" articulations
                                         )
             song.append(noat)
         else:
@@ -118,6 +163,14 @@ def content_song(numOfNotes: int = 100) -> stream.Part:
     return song
 
 def sad_song(numOfNotes:int = 10) -> stream.Part:
+    """returns a sad (sorrowful calm) song of type stream.Part
+    
+    Args:
+        numOfNotes (int, optional). Defaults to 10 due to longer note lengths.
+
+    Returns:
+        stream.Part
+    """
     song = stream.Part()
 
     kee = key.Key('C', 'minor')
@@ -129,16 +182,18 @@ def sad_song(numOfNotes:int = 10) -> stream.Part:
 
 
     for i in range(numOfNotes):
+        # if previous music21 object is of instance note.Rest, then append note.Note
         if isinstance(song[-1], note.Rest) or random.random() < 0.9:
 
             offset = int(i/numOfNotes*10)
-
+            # each note will be generated within a lower pitch interval than the previous one
             noat = random_note(55-offset, 60-offset, 1, 2, song.keySignature)
             if random.random() < 0.5:
                 noat.articulations.append(
                     random.choice([articulations.Tenuto(),
                                    articulations.Unstress(),
                                    articulations.DetachedLegato()])
+                                # "weak" articulations
                     )
             song.append(noat)
                 
@@ -149,6 +204,14 @@ def sad_song(numOfNotes:int = 10) -> stream.Part:
 
 
 def angry_song(numOfNotes:int = 30) -> stream.Part:
+    """returns a angry (sorrowful excited) song of type stream.Part
+    
+    Args:
+        numOfNotes (int, optional). Defaults to 30 due to shorter note lengths.
+
+    Returns:
+        stream.Part
+    """
     song = stream.Part()
 
     kee = key.Key('C', 'minor')
@@ -159,10 +222,11 @@ def angry_song(numOfNotes:int = 30) -> stream.Part:
     song.keySignature = kee
 
     for i in range(numOfNotes):
+        # if previous music21 object is of instance note.Rest, then append note.Note
         if isinstance(song[-1], note.Rest) or random.random() < 0.8:
 
             offset = int(i/numOfNotes*5)
-
+            # each note will be generated within a lower pitch interval than the previous one
             noat = random_note(50-offset, 55-offset, 0.25, 0.75, song.keySignature)
             if random.random() < 0.7:
                 noat.articulations.append(
@@ -172,7 +236,7 @@ def angry_song(numOfNotes:int = 30) -> stream.Part:
                                  articulations.Staccatissimo(),
                                  articulations.Spiccato(),
                                  articulations.StrongAccent()]
-                                )
+                                ) # strong accented articulations
                 )
             song.append(noat)
                 
@@ -181,7 +245,12 @@ def angry_song(numOfNotes:int = 30) -> stream.Part:
 
     return song
 
-def neutral_sound(numOfNotes: int) -> stream.Part:
+def neutral_sound(ascending: bool = True) -> stream.Part:
+    """returns a neutral sound consisting of two individual notes
+
+    Returns:
+        stream.Part
+    """
     song = stream.Part()
 
     kee = key.Key('C', 'major')
@@ -191,12 +260,12 @@ def neutral_sound(numOfNotes: int) -> stream.Part:
     song.append(tempo.MetronomeMark(text=None, number=150, referent=note.Note(type='half')))
     song.keySignature = kee
 
-    for i in range(numOfNotes):
-
-        if i%2 == 1:
-            song.append(note.Note('C4', quarterLength = 1))
-        else:
-            song.append(note.Note('G4', quarterLength = 1))
+    if ascending:
+        song.append(note.Note('C4', quarterLength = 1))
+        song.append(note.Note('G4', quarterLength = 1))
+    else:
+        song.append(note.Note('G4', quarterLength = 1))
+        song.append(note.Note('C4', quarterLength = 1))
 
     return song
 

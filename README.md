@@ -5,10 +5,10 @@
 
 ## Required Softwares
 
-The sound generator requires toolkit [music21](https://web.mit.edu/music21) to run. Run
+- The sound generator requires toolkit [music21](https://web.mit.edu/music21) to run. Run
 ```sudo pip3 install music21``` on Mac or ```pip install music21``` on Windows to [install](https://web.mit.edu/music21/doc/installing/).
 
-*TODO, add instructions for musescore*
+- The sound generator also needs a music notation/composition software in order to function. For the purpose of this research, [MuseScore](https://musescore.org/en/download) is highly suggested.
 
 ## Usage
 

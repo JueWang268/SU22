@@ -2,7 +2,7 @@ from music21 import *
 import random
 import typing
 import sys
-
+import subprocess
 
 # positive low energy: 
 # happy calm (content [slow sound in major, higher pitch]), 
@@ -272,26 +272,33 @@ def neutral_sound(ascending: bool = True) -> stream.Part:
 
 if __name__ == "__main__":
 
-    score = stream.Score()
+    for val in range(1,2):
 
-    if len(sys.argv) == 2:
-        emotion = sys.argv[1]
-        if emotion == "happy" or emotion == "h":
-            score.append(happy_song(numOfNotes=20))
-        elif emotion == "sad" or emotion == "s":
-            score.append(sad_song(numOfNotes=10))
-        elif emotion == "content" or emotion == "c":
-            score.append(content_song(numOfNotes=20))
-        elif emotion == "angry" or emotion == "a":
-            score.append(angry_song(numOfNotes=30))
+        score = stream.Score()
+
+        if len(sys.argv) == 2:
+            emotion = sys.argv[1]
+            if emotion == "happy" or emotion == "h":
+                score.append(happy_song(numOfNotes=20))
+            elif emotion == "sad" or emotion == "s":
+                score.append(sad_song(numOfNotes=10))
+            elif emotion == "content" or emotion == "c":
+                score.append(content_song(numOfNotes=20))
+            elif emotion == "angry" or emotion == "a":
+                score.append(angry_song(numOfNotes=30))
+            else:
+                print("USAGE: python3 randomSongGenerator.py [happy/sad/content/angry]")
+                exit()
+        # happy song by default
         else:
-            print("USAGE: python3 randomSongGenerator.py [happy/sad/content/angry]")
-            exit()
-    # happy song by default
-    else:
-        score.append(happy_song(numOfNotes=20))
-        
+            score.append(happy_song(numOfNotes=20))
 
-    score.write('midi',fp = "song.mid")
-
-    score.show()
+        name = f'{emotion}_{val}'
+        score_name = f"{name}.musicxml"
+        score.insert(0, metadata.Metadata())
+        score.metadata.title = name
+        # '/Applications/MuseScore\ 3.app/Contents/MacOS/mscore happy.musicxml -o happy.mp3'
+        score.write('musicxml', fp = score_name)
+        subprocess.run(["/Applications/MuseScore 3.app/Contents/MacOS/mscore", score_name, "-o", f'{emotion}/{val}.mp3'])
+        #score.write('midi',fp = name + ".mid")
+        #score.show()

@@ -1,6 +1,5 @@
 # SUMMER RESEARCH 2022 - Sound Generator
 
-Hannen Edited code
 
 ### *BARON WANG (Git username: ChenxuMurong)*
 
